@@ -24,7 +24,7 @@ The demo uses generated toy data only. Replace it with data you are allowed to u
 ## Data and evaluation
 
 - Expected input: User-supplied licensed historical price data.
-- The baseline separates training, validation, and test partitions with a fixed seed. The test partition is held out until final evaluation.
+- The return-direction model uses a chronological 60/20/20 split. The latest period is held out for final testing to reduce look-ahead leakage.
 - Fit preprocessing steps on training data only. Use validation results for model selection; report the test result once for the chosen configuration.
 - Check the project's `src/fintech/` code and tests before adapting it to real data.
 
