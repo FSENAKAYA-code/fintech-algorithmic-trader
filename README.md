@@ -28,6 +28,12 @@ The demo uses generated toy data only. Replace it with data you are allowed to u
 - Fit preprocessing steps on training data only. Use validation results for model selection; report the test result once for the chosen configuration.
 - Check the project's `src/fintech/` code and tests before adapting it to real data.
 
+## Domain workflow
+
+- The demo uses generated returns. For authorized local data, provide a timestamped CSV with a `direction` target using `uv run python scripts/train.py --data-csv PATH --target direction`. Rows are sorted by timestamp and split chronologically 60/20/20.
+- `src/fintech/strategy.py` contains moving-average signals, historical VaR, and long-only minimum-variance weights. `market_data.py` exposes an explicit yfinance download function; it is never called by the demo.
+- The project does not place orders and is not investment advice.
+
 ## Repository layout
 
 ```text

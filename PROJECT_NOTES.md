@@ -1,5 +1,3 @@
 # Domain implementation notes
 
-An educational, non-deployable quantitative research scaffold. It emphasizes chronological splits and risk reporting; it does not provide investment advice or place trades.
-
-The shared baseline in `src/fintech/` is executable now. Domain-specific model implementations are planned work and must be evaluated using documented data splits.
+The demo forecasts return direction using chronological splits. Utility modules provide moving-average signals, historical VaR, and long-only minimum-variance weights. The optional yfinance adapter is explicit and is not used by the demo. No trades are placed.

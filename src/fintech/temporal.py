@@ -2,7 +2,7 @@
 
 import numpy as np
 from sklearn.ensemble import HistGradientBoostingClassifier
-from sklearn.metrics import accuracy_score, f1_score
+from sklearn.metrics import accuracy_score, f1_score, log_loss
 
 
 def chronological_indices(n_rows: int) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
@@ -23,6 +23,10 @@ def evaluate_return_direction(X: np.ndarray, y: np.ndarray) -> dict[str, float]:
     train_idx, validation_idx, test_idx = chronological_indices(len(y))
     model = HistGradientBoostingClassifier(random_state=42)
     model.fit(X[train_idx], y[train_idx])
+    train_loss = log_loss(y[train_idx], model.predict_proba(X[train_idx]), labels=model.classes_)
+    validation_loss = log_loss(
+        y[validation_idx], model.predict_proba(X[validation_idx]), labels=model.classes_
+    )
     validation_f1 = f1_score(
         y[validation_idx], model.predict(X[validation_idx]), average="weighted", zero_division=0
     )
@@ -30,6 +34,8 @@ def evaluate_return_direction(X: np.ndarray, y: np.ndarray) -> dict[str, float]:
     model.fit(X[final_idx], y[final_idx])
     predictions = model.predict(X[test_idx])
     return {
+        "train_loss": float(train_loss),
+        "validation_loss": float(validation_loss),
         "validation_f1_weighted": float(validation_f1),
         "test_accuracy": float(accuracy_score(y[test_idx], predictions)),
         "test_f1_weighted": float(
